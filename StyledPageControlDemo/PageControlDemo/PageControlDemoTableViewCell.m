@@ -17,7 +17,7 @@
     if (self) {
         // Initialization code
         
-        _pageControl = [[StyledPageControl alloc] initWithFrame:CGRectZero];
+        _pageControl = [[WKStyledPageControl alloc] initWithFrame:CGRectZero];
         [_pageControl setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [self.contentView addSubview:_pageControl];
         

@@ -21,7 +21,7 @@
 		F8B2E748137ED3C500338230 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8B2E746137ED3C500338230 /* MainWindow_iPhone.xib */; };
 		F8B2E74C137ED3C500338230 /* PageControlDemoAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E74B137ED3C500338230 /* PageControlDemoAppDelegate_iPad.m */; };
 		F8B2E74F137ED3C500338230 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8B2E74D137ED3C500338230 /* MainWindow_iPad.xib */; };
-		F8B2E758137ED42000338230 /* StyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E757137ED42000338230 /* StyledPageControl.m */; };
+		F8B2E758137ED42000338230 /* WKStyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E757137ED42000338230 /* WKStyledPageControl.m */; };
 		F8B2E75B137ED5EB00338230 /* PageControlDemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E75A137ED5EB00338230 /* PageControlDemoListViewController.m */; };
 		F8B2E75E137EDA8800338230 /* PageControlDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E75D137EDA8800338230 /* PageControlDemoTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -47,8 +47,8 @@
 		F8B2E74A137ED3C500338230 /* PageControlDemoAppDelegate_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PageControlDemoAppDelegate_iPad.h; path = iPad/PageControlDemoAppDelegate_iPad.h; sourceTree = "<group>"; };
 		F8B2E74B137ED3C500338230 /* PageControlDemoAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PageControlDemoAppDelegate_iPad.m; path = iPad/PageControlDemoAppDelegate_iPad.m; sourceTree = "<group>"; };
 		F8B2E74E137ED3C500338230 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
-		F8B2E756137ED42000338230 /* StyledPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyledPageControl.h; sourceTree = "<group>"; };
-		F8B2E757137ED42000338230 /* StyledPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyledPageControl.m; sourceTree = "<group>"; };
+		F8B2E756137ED42000338230 /* WKStyledPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKStyledPageControl.h; sourceTree = "<group>"; };
+		F8B2E757137ED42000338230 /* WKStyledPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKStyledPageControl.m; sourceTree = "<group>"; };
 		F8B2E759137ED5EB00338230 /* PageControlDemoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlDemoListViewController.h; sourceTree = "<group>"; };
 		F8B2E75A137ED5EB00338230 /* PageControlDemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControlDemoListViewController.m; sourceTree = "<group>"; };
 		F8B2E75C137EDA8800338230 /* PageControlDemoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlDemoTableViewCell.h; sourceTree = "<group>"; };
@@ -151,8 +151,8 @@
 		F8B2E755137ED40800338230 /* PageControl */ = {
 			isa = PBXGroup;
 			children = (
-				F8B2E756137ED42000338230 /* StyledPageControl.h */,
-				F8B2E757137ED42000338230 /* StyledPageControl.m */,
+				F8B2E756137ED42000338230 /* WKStyledPageControl.h */,
+				F8B2E757137ED42000338230 /* WKStyledPageControl.m */,
 			);
 			name = PageControl;
 			sourceTree = "<group>";
@@ -229,7 +229,7 @@
 				F8B2E741137ED3C500338230 /* PageControlDemoAppDelegate.m in Sources */,
 				F8B2E745137ED3C500338230 /* PageControlDemoAppDelegate_iPhone.m in Sources */,
 				F8B2E74C137ED3C500338230 /* PageControlDemoAppDelegate_iPad.m in Sources */,
-				F8B2E758137ED42000338230 /* StyledPageControl.m in Sources */,
+				F8B2E758137ED42000338230 /* WKStyledPageControl.m in Sources */,
 				F8B2E75B137ED5EB00338230 /* PageControlDemoListViewController.m in Sources */,
 				F8B2E75E137EDA8800338230 /* PageControlDemoTableViewCell.m in Sources */,
 			);
@@ -277,7 +277,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -292,7 +292,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

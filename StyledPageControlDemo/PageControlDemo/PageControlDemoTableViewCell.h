@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StyledPageControl.h"
+#import "WKStyledPageControl.h"
 
 @interface PageControlDemoTableViewCell : UITableViewCell
-@property (nonatomic) StyledPageControl *pageControl;
+@property (nonatomic) WKStyledPageControl *pageControl;
 @end
