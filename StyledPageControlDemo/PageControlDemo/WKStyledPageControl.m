@@ -1,3 +1,8 @@
+// --
+// Forked from https://github.com/honcheng/iOS-StyledPageControl
+// --
+
+
 #import "WKStyledPageControl.h"
 
 
@@ -12,14 +17,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setupStyledPageControl];
-        
     }
     return self;
 }
 
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-	self=[super initWithCoder:aDecoder];
+	self = [super initWithCoder:aDecoder];
 	if (self) {
 		[self setupStyledPageControl];
 	}
@@ -35,17 +39,60 @@
 	_diameter = 12;
 	_pageControlStyle = PageControlStyleDefault;
     
-    // Defaults
+    // coreNormalColor default
     self.coreNormalColor = COLOR_GRAYISHBLUE;
-	
+    
+    // coreSelectedColor default
+    if (self.pageControlStyle == PageControlStyleStrokedSquare ||
+             self.pageControlStyle == PageControlStyleStrokedCircle ||
+             self.pageControlStyle == PageControlStyleWithPageNumber)
+        self.coreSelectedColor = COLOR_GRAYISHBLUE;
+    else
+        self.coreSelectedColor = COLOR_GRAY;
+    
+    // strokeNormalColor default
+    if (self.pageControlStyle == PageControlStyleDefault)
+        self.strokeNormalColor = self.coreNormalColor;
+    else
+        self.strokeNormalColor = COLOR_GRAYISHBLUE;
+    
+    // strokeSelectedColor default
+    if (self.pageControlStyle==PageControlStyleStrokedSquare ||
+        self.pageControlStyle==PageControlStyleStrokedCircle ||
+        self.pageControlStyle==PageControlStyleWithPageNumber)
+        self.strokeSelectedColor = COLOR_GRAYISHBLUE;
+    else if (self.pageControlStyle == PageControlStyleDefault)
+        self.strokeSelectedColor = self.coreSelectedColor;
+    else
+        self.strokeSelectedColor = COLOR_GRAY;
+    
+    // Gesture
 	UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapped:)];
 	[self addGestureRecognizer:tapGestureRecognizer];
 }
 
 
+#pragma mark - Getters
+- (NSMutableDictionary *)selectedThumbImageForIndex {
+    if (_selectedThumbImageForIndex)
+        return _selectedThumbImageForIndex;
+    
+    self.selectedThumbImageForIndex = [[NSMutableDictionary alloc] init];
+    return _selectedThumbImageForIndex;
+}
+
+
+- (NSMutableDictionary *)thumbImageForIndex {
+    if (_thumbImageForIndex)
+        return _thumbImageForIndex;
+    
+    self.thumbImageForIndex = [[NSMutableDictionary alloc] init];
+    return _thumbImageForIndex;
+}
+
+
 #pragma mark - Interactions
-- (void)onTapped:(UITapGestureRecognizer*)gesture
-{
+- (void)onTapped:(UITapGestureRecognizer*)gesture {
     CGPoint touchPoint = [gesture locationInView:[gesture view]];
     
     if (touchPoint.x < self.frame.size.width/2) {
@@ -74,55 +121,18 @@
 
 #pragma mark - UIView
 - (void)drawRect:(CGRect)rect {
-    UIColor *coreSelectedColor, *strokeNormalColor, *strokeSelectedColor;
-    
-    if (self.coreSelectedColor)
-        coreSelectedColor = self.coreSelectedColor;
-    else if (self.pageControlStyle==PageControlStyleStrokedSquare ||
-             self.pageControlStyle==PageControlStyleStrokedCircle ||
-             self.pageControlStyle==PageControlStyleWithPageNumber) {
-        coreSelectedColor = COLOR_GRAYISHBLUE;
-    }
-    else {
-        coreSelectedColor = COLOR_GRAY;
-    }
-    
-    if (self.strokeNormalColor)
-        strokeNormalColor = self.strokeNormalColor;
-    else if (self.pageControlStyle==PageControlStyleDefault && self.coreNormalColor) {
-        strokeNormalColor = self.coreNormalColor;
-    }
-    else {
-        strokeNormalColor = COLOR_GRAYISHBLUE;
-    }
-    
-    if (self.strokeSelectedColor)
-        strokeSelectedColor = self.strokeSelectedColor;
-    else if (self.pageControlStyle==PageControlStyleStrokedSquare ||
-             self.pageControlStyle==PageControlStyleStrokedCircle ||
-             self.pageControlStyle==PageControlStyleWithPageNumber) {
-        strokeSelectedColor = COLOR_GRAYISHBLUE;
-    }
-    else if (self.pageControlStyle==PageControlStyleDefault && self.coreSelectedColor) {
-        strokeSelectedColor = self.coreSelectedColor;
-    }
-    else {
-        strokeSelectedColor = COLOR_GRAY;
-    }
-    
     // Drawing code
-    if (self.hidesForSinglePage && self.numberOfPages==1) {
+    if (self.hidesForSinglePage && self.numberOfPages==1)
 		return;
-	}
 	
 	CGContextRef myContext = UIGraphicsGetCurrentContext();
 	
 	NSInteger gap = self.gapWidth;
     float diameter = self.diameter - 2 * self.strokeWidth;
     
-    if (self.pageControlStyle == PageControlStyleThumb && (self.thumbImage && self.selectedThumbImage)) {
+    if (self.pageControlStyle == PageControlStyleThumb &&
+        (self.thumbImage && self.selectedThumbImage))
         diameter = self.thumbImage.size.width;
-    }
 	
 	NSInteger totalWidth  = self.numberOfPages * diameter + (self.numberOfPages-1) * gap;
 	if (totalWidth > self.frame.size.width) {
@@ -135,13 +145,13 @@
 				
 				if (gap == 2) {
 					break;
-					totalWidth  = self.numberOfPages * diameter + (self.numberOfPages-1) * gap;
+//					totalWidth  = self.numberOfPages * diameter + (self.numberOfPages-1) * gap;
 				}
 			}
 			
 			if (diameter == 2) {
 				break;
-				totalWidth = self.numberOfPages * diameter + (self.numberOfPages-1) * gap;
+//				totalWidth = self.numberOfPages * diameter + (self.numberOfPages-1) * gap;
 			}
 		}
 	}
@@ -152,28 +162,28 @@
         
         if (self.pageControlStyle==PageControlStyleDefault) {
             if (i==self.currentPage) {
-                CGContextSetFillColorWithColor(myContext, [coreSelectedColor CGColor]);
+                CGContextSetFillColorWithColor(myContext, [self.coreSelectedColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeSelectedColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeSelectedColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
             else {
                 CGContextSetFillColorWithColor(myContext, [self.coreNormalColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeNormalColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeNormalColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
         }
         else if (self.pageControlStyle==PageControlStyleStrokedCircle) {
             CGContextSetLineWidth(myContext, self.strokeWidth);
             if (i == self.currentPage) {
-                CGContextSetFillColorWithColor(myContext, [coreSelectedColor CGColor]);
+                CGContextSetFillColorWithColor(myContext, [self.coreSelectedColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeSelectedColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeSelectedColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
             else {
-                CGContextSetStrokeColorWithColor(myContext, [strokeNormalColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeNormalColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
         }
@@ -181,14 +191,14 @@
             CGContextSetLineWidth(myContext, self.strokeWidth);
             if (i==self.currentPage)
             {
-                CGContextSetFillColorWithColor(myContext, [coreSelectedColor CGColor]);
+                CGContextSetFillColorWithColor(myContext, [self.coreSelectedColor CGColor]);
                 CGContextFillRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeSelectedColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeSelectedColor CGColor]);
                 CGContextStrokeRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
             else
             {
-                CGContextSetStrokeColorWithColor(myContext, [strokeNormalColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeNormalColor CGColor]);
                 CGContextStrokeRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
         }
@@ -198,9 +208,9 @@
             if (i == self.currentPage) {
                 NSInteger _currentPageDiameter = diameter*1.6;
                 x = (self.frame.size.width-totalWidth )/2 + i*(diameter+gap) - (_currentPageDiameter-diameter)/2;
-                CGContextSetFillColorWithColor(myContext, [coreSelectedColor CGColor]);
+                CGContextSetFillColorWithColor(myContext, [self.coreSelectedColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-_currentPageDiameter)/2,_currentPageDiameter,_currentPageDiameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeSelectedColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeSelectedColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-_currentPageDiameter)/2,_currentPageDiameter,_currentPageDiameter));
                 
                 NSString *pageNumber = [NSString stringWithFormat:@"%i", i+1];
@@ -208,7 +218,7 @@
                 [pageNumber drawInRect:CGRectMake(x,(self.frame.size.height-_currentPageDiameter)/2-1,_currentPageDiameter,_currentPageDiameter) withFont:[UIFont systemFontOfSize:_currentPageDiameter-2] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentCenter];
             }
             else {
-                CGContextSetStrokeColorWithColor(myContext, [strokeNormalColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeNormalColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
         }
@@ -224,15 +234,15 @@
             
             
             if (i == self.currentPage) {
-                CGContextSetFillColorWithColor(myContext, [coreSelectedColor CGColor]);
+                CGContextSetFillColorWithColor(myContext, [self.coreSelectedColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeSelectedColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeSelectedColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
             else {
                 CGContextSetFillColorWithColor(myContext, [self.coreNormalColor CGColor]);
                 CGContextFillEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
-                CGContextSetStrokeColorWithColor(myContext, [strokeNormalColor CGColor]);
+                CGContextSetStrokeColorWithColor(myContext, [self.strokeNormalColor CGColor]);
                 CGContextStrokeEllipseInRect(myContext, CGRectMake(x,(self.frame.size.height-diameter)/2,diameter,diameter));
             }
         }
@@ -259,6 +269,7 @@
 }
 
 
+#pragma mark - UIPageControl
 - (void)setCurrentPage:(int)page {
     _currentPage = page;
     [self setNeedsDisplay];
@@ -271,12 +282,9 @@
 }
 
 
+#pragma mark - Thumb image
 - (void)setThumbImage:(UIImage *)aThumbImage forIndex:(NSInteger)index {
-    if (self.thumbImageForIndex == nil) {
-        [self setThumbImageForIndex:[NSMutableDictionary dictionary]];
-    }
-    
-    if ((aThumbImage != nil))
+    if (aThumbImage)
         (self.thumbImageForIndex)[@(index)] = aThumbImage;
     else
         [self.thumbImageForIndex removeObjectForKey:@(index)];
@@ -286,20 +294,17 @@
 
 
 - (UIImage *)thumbImageForIndex:(NSInteger)index {
-    UIImage* aThumbImage = (self.thumbImageForIndex)[@(index)];
-    if (aThumbImage == nil)
+    UIImage *aThumbImage = (self.thumbImageForIndex)[@(index)];
+    if (! aThumbImage)
         aThumbImage = self.thumbImage;
     
     return aThumbImage;
 }
 
 
+#pragma mark - Selected thumb image
 - (void)setSelectedThumbImage:(UIImage *)aSelectedThumbImage forIndex:(NSInteger)index {
-    if (self.selectedThumbImageForIndex == nil) {
-        [self setSelectedThumbImageForIndex:[NSMutableDictionary dictionary]];
-    }
-    
-    if ((aSelectedThumbImage != nil))
+    if (aSelectedThumbImage)
         (self.selectedThumbImageForIndex)[@(index)] = aSelectedThumbImage;
     else
         [self.selectedThumbImageForIndex removeObjectForKey:@(index)];
@@ -309,8 +314,8 @@
 
 
 - (UIImage *)selectedThumbImageForIndex:(NSInteger)index {
-    UIImage* aSelectedThumbImage = (self.selectedThumbImageForIndex)[@(index)];
-    if (aSelectedThumbImage == nil)
+    UIImage *aSelectedThumbImage = (self.selectedThumbImageForIndex)[@(index)];
+    if (! aSelectedThumbImage)
         aSelectedThumbImage = self.selectedThumbImage;
     
     return aSelectedThumbImage;

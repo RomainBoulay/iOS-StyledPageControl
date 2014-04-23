@@ -1,5 +1,8 @@
+// --
+// Forked from https://github.com/honcheng/iOS-StyledPageControl
+// --
 
-//@import UIKit;
+@import UIKit;
 
 typedef NS_ENUM(NSUInteger, PageControlStyle) {
     PageControlStyleDefault = 0,
