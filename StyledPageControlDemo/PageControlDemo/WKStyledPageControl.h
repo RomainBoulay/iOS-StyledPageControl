@@ -17,11 +17,11 @@ typedef NS_ENUM(NSUInteger, PageControlStyle) {
 
 @interface WKStyledPageControl : UIControl
 
-@property (nonatomic) UIColor *coreNormalColor;
-@property (nonatomic) UIColor *coreSelectedColor;
+@property (nonatomic, strong) UIColor *coreNormalColor;
+@property (nonatomic, strong) UIColor *coreSelectedColor;
 
-@property (nonatomic) UIColor *strokeNormalColor;
-@property (nonatomic) UIColor *strokeSelectedColor;
+@property (nonatomic, strong) UIColor *strokeNormalColor;
+@property (nonatomic, strong) UIColor *strokeSelectedColor;
 
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, assign) NSInteger numberOfPages;

@@ -94,11 +94,12 @@
 #pragma mark - Interactions
 - (void)onTapped:(UITapGestureRecognizer*)gesture {
     CGPoint touchPoint = [gesture locationInView:[gesture view]];
+    NSInteger minX = self.gapWidth + self.diameter;
     
     if (touchPoint.x < self.frame.size.width/2) {
         // move left
         if (self.currentPage > 0) {
-            if (touchPoint.x <= 22)
+            if (touchPoint.x <= minX)
                 self.currentPage = 0;
             else
                 self.currentPage -= 1;
@@ -106,9 +107,9 @@
     }
     else {
         // move right
-        if (self.currentPage < self.numberOfPages-1) {
-            if (touchPoint.x >= (CGRectGetWidth(self.bounds) - 22))
-                self.currentPage = self.numberOfPages-1;
+        if (self.currentPage < self.numberOfPages - 1) {
+            if (touchPoint.x >= (CGRectGetWidth(self.bounds) - minX))
+                self.currentPage = self.numberOfPages - 1;
             else
                 self.currentPage += 1;
         }
@@ -122,13 +123,13 @@
 #pragma mark - UIView
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    if (self.hidesForSinglePage && self.numberOfPages==1)
+    if (self.hidesForSinglePage && self.numberOfPages == 1)
 		return;
 	
 	CGContextRef myContext = UIGraphicsGetCurrentContext();
 	
 	NSInteger gap = self.gapWidth;
-    float diameter = self.diameter - 2 * self.strokeWidth;
+    CGFloat diameter = self.diameter - 2 * self.strokeWidth;
     
     if (self.pageControlStyle == PageControlStyleThumb &&
         (self.thumbImage && self.selectedThumbImage))
